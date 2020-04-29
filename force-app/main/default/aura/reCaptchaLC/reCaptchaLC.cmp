@@ -1,40 +1,93 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--
+    <div class="container">
+		<form class="slds-form-\-stacked">
+			<div class="slds-form-element slds-is-required">
+				<div class="slds-form-element__control">
+					<ui:inputText aura:id="inputName" label="Name"
+                        class="slds-input"
+                        labelClass="slds-form-element__label"
+                        value="{!v.myName}"
+                        required="true"/>
+                </div>
+            </div>
+    		<div class="slds-form-element">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <ui:inputText aura:id="inputEmail" label="Email"
+                            class="slds-input"
+                            labelClass="slds-form-element__label"
+                            value="{!v.myEmail}"
+                            required="false"/>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form-element">
+                <iframe aura:id="vfFrame" src="/donaciones/apex/ReCaptcha" scrolling="no" frameborder="0" width="100%" allowtransparency="true"/>
+            </div>
+            
+            <div class="slds-form-element">
+				<ui:button label="Submit"
+                       class="slds-button slds-button-\-neutral"
+                       labelClass="label"
+                       press="{!c.doSubmit}"/>
+            </div>
+        </form>
+    </div>-->
     
-    <lightning:icon iconName="standard:case" alternativeText="Case" title="Case" /><span class="slds-text-heading_large slds-text-title_caps"><strong> Need Support? Open a New Case</strong></span>
-    <lightning:input aura:id="expenseform" label="First Name"
-                             name="firstName"
-                             value="{!v.newExpense.FirstName}"
-                             required="true"/>
-    <br/>
-    <lightning:input aura:id="expenseform" label="Last Name"
-                             name="lastName"
-                             value="{!v.newExpense.LastName}"
-                             required="true"/>
-    <br/>
-    <lightning:input aura:id="expenseform" label="Second Last Name"
-                             name="secondLastName"
-                             value="{!v.newExpense.SecondLastName}"
-                             required="true"/>
-    <br/>
-    <lightning:input type="email" name="email" required="true" value="" label="Email" /><br/>
-    <lightning:input name="companyName" label="Company Name" /><br/>
-    <lightning:input type="tel" label="Phone Number" name="phoneNumber" placeholder="9999876543"/><br/>
-    <lightning:select name="caseType" label="Choose the type of Case you want to open" required="true">
-        <option value="">choose one...</option>
-        <option value="1">Question</option>
-        <option value="2">Problem</option>
-    </lightning:select>
-    <div class="slds-m-vertical_medium slds-text-title_caps">
-        <p class="slds-text-body_regular">Case Description Information</p>
-    </div>
-    <lightning:input aura:id="expenseform" label="Case Subject"
-                             name="caseSubject"
-                             value="{!v.newExpense.FirstName}"
-                             required="true"/>
-    <br/>
-    <lightning:textarea name="caseDescription" required="true" value="" placeholder="Please, Describe your problem..." label="Case Description" maxlength="200" messageWhenTooLong="A maximum of 200 characters are allowed." messageWhenValueMissing="An empty case description cannot be submitted." /><br/>
-    <iframe src="/donaciones/apex/ReCaptcha" height="100px" width="400px" style="border:0px"/>
-    <br/> 
-    <lightning:button aura:id="submitButton" label="Submit" onclick="{!c.doSubmit}" disabled="true"/>
+    <aura:attribute name="newContact" type="Contact"
+     default="{ 'sobjectType': '',
+                'FirstName': '',
+                'LastName': '',
+                'SecondLastName': '',
+                'Email': '',
+                'CompanyName': '',
+                'PhoneNumber': ''
+            }"/>
+    <aura:attribute name="newCase" type="Case"
+     default="{ 'sobjectType': '',
+                'Subject': '',
+                'Description': ''
+        }"/>
+    <form>
+        <lightning:icon iconName="standard:case" alternativeText="Case" title="Case" /><span class="slds-text-heading_large slds-text-title_caps"><strong> Need Support? Open a New Case</strong></span>
+        <lightning:input aura:id="caseform" label="First Name"
+                                name="firstName"
+                                value="{!v.newContact.FirstName}"
+                                required="true"/>
+        <br/>
+        <lightning:input aura:id="caseform" label="Last Name"
+                                name="lastName"
+                                value="{!v.newContact.LastName}"
+                                required="true"/>
+        <br/>
+        <lightning:input aura:id="caseform" label="Second Last Name"
+                                name="secondLastName"
+                                value="{!v.newContact.SecondLastName}"
+                                required="true"/>
+        <br/>
+        <lightning:input type="email" name="email" required="true" value="{!v.newContact.Email}" label="Email" /><br/>
+        <lightning:input name="companyName" value="{!v.newContact.CompanyName}" label="Company Name" /><br/>
+        <lightning:input type="tel" value="{!v.newContact.PhoneNumber}" label="Phone Number" name="phoneNumber" placeholder="Enter Phone Number"/><br/>
+        
+        <div class="slds-m-vertical_medium slds-text-title_caps">
+            <p class="slds-text-body_regular">Case Description Information</p>
+        </div>        
+        
+        <lightning:select name="caseType" label="Choose the type of Case you want to open" aura:id="caseType" required="true">
+            <option value="">choose one...</option>
+            <option value="Question">Question</option>
+            <option value="Problem">Problem</option>
+        </lightning:select>
+        <lightning:input aura:id="caseform" label="Case Subject"
+                                name="caseSubject"
+                                value="{!v.newCase.Subject}"
+                                required="true"/>
+        <br/>
+        <lightning:textarea name="caseDescription" required="true" value="{!v.newCase.Description}" placeholder="Please, Describe your problem..." label="Case Description" maxlength="200" messageWhenTooLong="A maximum of 200 characters are allowed." messageWhenValueMissing="An empty case description cannot be submitted." /><br/>
+        <iframe src="/donaciones/apex/ReCaptcha" height="100px" width="400px" style="border:0px"/>
+        <br/> 
+        <lightning:button aura:id="submitButton" label="Submit" onclick="{!c.doSubmit}" disabled="true"/>
+    </form>
 </aura:component>	
