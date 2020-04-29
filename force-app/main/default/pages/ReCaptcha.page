@@ -1,0 +1,53 @@
+<apex:page showHeader="false" sidebar="false">
+    <html>
+    <head>
+        <title>reCaptcha test at 12pm</title>
+        <script type="text/javascript">
+            var verifyCallback = function (response) {
+                parent.postMessage("unlock", "{!$Site.BaseSecureUrl}");
+
+                /*
+                let hostURL = window.parent.location.protocol + '//' + window.parent.location.hostname,
+                    recaptchaResponse = document.getElementById('g-recaptcha-response').value;
+                parent.postMessage({
+                    action: 'unlock',
+                    response: recaptchaResponse
+                }, hostURL);
+                */
+            };
+            var onloadCallback = function () {
+                grecaptcha.render('html_element', {
+                    'sitekey': '6Lc71e8UAAAAAMEB6DBYPv-QSuEGPJp-V7Jmr6hX',
+                    'callback': verifyCallback
+                });
+            };
+
+            
+            // this function checks if captcha is active and send post message to parent to increse heigh of iframe
+            /*
+            var observer = new MutationObserver(function (mutations) {
+                let hostURL = window.parent.location.protocol + '//' + window.parent.location.hostname;
+                if (document.getElementById('captcha') && document.getElementById('captcha').nextSibling && document.getElementById('captcha').nextSibling.nextSibling) {
+                    const isCaptchaVisible = document.getElementById('captcha').nextSibling.nextSibling.style.visibility;
+                    if (isCaptchaVisible) {
+                        parent.postMessage({ 'captchaVisible': isCaptchaVisible }, hostURL);
+                    }
+                }
+            });
+            var config = { subtree: true, childList: true };
+            observer.observe(document.body, config);
+            */
+
+        </script>
+    </head>
+
+    <body>
+        <form action="?" method="POST">
+            <div id="html_element"></div>
+            <br/>
+            <input type="submit" value="Submit" style="display:none" />
+        </form>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async="" defer="" />
+    </body>
+    </html>
+</apex:page>
