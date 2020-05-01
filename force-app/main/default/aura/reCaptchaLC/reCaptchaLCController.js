@@ -4,7 +4,7 @@
         let vfOrigin = window.location.href;
 
         window.addEventListener("message", function(event) {
-            // this.console.log(event.data); // event.data = 'locked' || 'unclocked'
+            // this.console.log(event.data); // event.data = 'locked' || 'unlocked'
 
             /*
             if(event.origin != vfOrigin) {
@@ -35,9 +35,10 @@
 
             // Get Case Attributes from Form
             let caseSubject = component.get("v.newCase.Subject");
-            let caseSelectedType = component.find("caseType").get("v.value"); // Find using the aura:id identifier
+            let caseSelectedType = component.find("caseFormCaseType").get("v.value"); // Find using the aura:id identifier
             let caseDescription = component.get("v.newCase.Description");
 
+            // console.log(caseSelectedType); // test
             // CALL OF APEX CONTROLLER
             try {
                 let action = component.get('c.NewCase');
@@ -52,50 +53,102 @@
                     'CaseSubject': caseSubject, 
                     'CaseDescription': caseDescription
                 });
+                /*
+                let validateFields = component.get('c.validateFields');
+                let validEmail = $A.enqueueAction(validateFields);
 
-                let validateEmail = component.get('c.validateEmail');
-                let validEmail = $A.enqueueAction(validateEmail);
+                console.log(validEmail + ' ----------- validemail');*/
+                let blankFields = false;
+                if( firstName === '', 
+                    lastName === '', 
+                    secondLastName === '', 
+                    phoneNumber === '', 
+                    caseSelectedType === '', 
+                    caseSubject === '', 
+                    caseDescription === '') {
+                    blankFields = true;
+                }
 
-                if(validEmail) {
+                let validEmail = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email));
+
+                //console.log(validEmail + ' blankFields?: ' + blankFields);
+
+                // First If executes if email is valid and the other fields are not left blank
+                if(validEmail && !blankFields) {
+                    //console.log('valid email, creating new case');
                     //DEFINE WHAT SHOULD HAPPEN AFTER SERVER-SIDE CALL RETURNS
                     action.setCallback(this, function(response) {
                         var state = response.getState();
 
                         if(component.isValid() && state === "SUCCESS") {
-                            console.log('New Case created successfully!');
-                            window.location = "/donaciones/s/thank-you-for-contacting-us";
+                            var toastEvent = $A.get("e.force:showToast");
+                            toastEvent.setParams({
+                                title : 'Success!',
+                                message: 'New Open Case Created Successfully!',
+                                duration:' 2000',
+                                key: 'info_alt',
+                                type: 'success',
+                                mode: 'pester'
+                            });
+                            toastEvent.fire();
+                            setTimeout(() => { window.location = "/donaciones/s/thank-you-for-contacting-us"; }, 3000);
                         }
-                        else 
-                            console.log('Failed to create new Case');
+                        else {
+                            var toastEvent = $A.get("e.force:showToast");
+                            toastEvent.setParams({
+                                title : 'Error',
+                                message:'Failed to create new Case - Server Error. Try Again in a few minutes',
+                                duration:' 5000',
+                                key: 'info_alt',
+                                type: 'error',
+                                mode: 'pester'
+                            });
+                            toastEvent.fire();
+                        }
                     });
 
                     //DON'T FORGET TO ENQUEUE YOUR ACTION
                     $A.enqueueAction(action);
+                } else if(blankFields) {
+                    var toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        title : 'Error',
+                        message:'Please, Complete All Required Fields and Try Again.',
+                        duration:' 5000',
+                        key: 'info_alt',
+                        type: 'error',
+                        mode: 'pester'
+                    });
+                    toastEvent.fire();
+                } else if(!validEmail) {
+                    var toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        title : 'Error',
+                        message:'Please, provide a valid email address and try again',
+                        duration:' 5000',
+                        key: 'info_alt',
+                        type: 'error',
+                        mode: 'pester'
+                    });
+                    toastEvent.fire();
                 }
                 
             } catch (error) {
-                console.log(error);
+                console.log(error); // Looks unreachable
             }
 
         } else {
-            alert("Captcha Challenge Not Resolved");
-            // TO-DO -> Draw in user interface they're trying to skip the reCaptcha button. 
-            //      Could be done instead of the alert.
+            var toastEvent = $A.get("e.force:showToast");
+            toastEvent.setParams({
+                title : 'Error',
+                message:'Captcha Challenge Not Resolved',
+                duration:' 5000',
+                key: 'info_alt',
+                type: 'error',
+                mode: 'pester'
+            });
+            toastEvent.fire();
         }
         
-    },
-    //Check Email Validity
-    validateEmail : function(component, event, helper) {
-        let emailValid = false;
-        let email = component.get("v.newContact.Email");
-
-        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) { // Test if email is a valid email with a Regex.
-            component.find('caseformEmail').showHelpMessageIfInvalid();
-            return emailValid;
-        }
-
-        emailValid = true;
-        
-        return emailValid;
     }
 })
