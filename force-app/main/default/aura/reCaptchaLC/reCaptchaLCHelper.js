@@ -3,6 +3,5 @@
     reCaptchaUsed : 'locked',
 
     helperMethod : function() {
-
     }
 })

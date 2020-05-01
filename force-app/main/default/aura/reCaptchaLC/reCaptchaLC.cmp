@@ -1,40 +1,5 @@
-<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="reCaptchatLCController" access="global">
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <!--
-    <div class="container">
-		<form class="slds-form-\-stacked">
-			<div class="slds-form-element slds-is-required">
-				<div class="slds-form-element__control">
-					<ui:inputText aura:id="inputName" label="Name"
-                        class="slds-input"
-                        labelClass="slds-form-element__label"
-                        value="{!v.myName}"
-                        required="true"/>
-                </div>
-            </div>
-    		<div class="slds-form-element">
-                <div class="slds-form-element">
-                    <div class="slds-form-element__control">
-                        <ui:inputText aura:id="inputEmail" label="Email"
-                            class="slds-input"
-                            labelClass="slds-form-element__label"
-                            value="{!v.myEmail}"
-                            required="false"/>
-                    </div>
-                </div>
-            </div>
-            <div class="slds-form-element">
-                <iframe aura:id="vfFrame" src="/donaciones/apex/ReCaptcha" scrolling="no" frameborder="0" width="100%" allowtransparency="true"/>
-            </div>
-            
-            <div class="slds-form-element">
-				<ui:button label="Submit"
-                       class="slds-button slds-button-\-neutral"
-                       labelClass="label"
-                       press="{!c.doSubmit}"/>
-            </div>
-        </form>
-    </div>-->
     
     <aura:attribute name="newContact" type="Contact"
      default="{ 'sobjectType': '',
@@ -67,29 +32,35 @@
                                 class="slds-m-bottom_medium"
                                 name="firstName"
                                 value="{!v.newContact.FirstName}"
-                                required="true"/>
+                                required="true"
+                                messageWhenValueMissing="Please, Fill the Field"/>
         <lightning:input aura:id="caseform" label="Last Name"
                                 class="slds-m-bottom_medium"
                                 name="lastName"
                                 value="{!v.newContact.LastName}"
-                                required="true"/>
+                                required="true"
+                                messageWhenValueMissing="Please, Fill the Field"/>
         <lightning:input aura:id="caseform" label="Second Last Name"
                                 class="slds-m-bottom_medium"
                                 name="secondLastName"
                                 value="{!v.newContact.SecondLastName}"
-                                required="true"/>
-        <lightning:input type="email" class="slds-m-bottom_medium"
+                                required="true"
+                                messageWhenValueMissing="Please, Fill the Field"/>
+        <lightning:input aura:id="caseformEmail" type="email" class="slds-m-bottom_medium"
                                       name="email" 
                                       required="true" 
                                       value="{!v.newContact.Email}" 
-                                      label="Email" />
+                                      label="Email"
+                                      messageWhenValueMissing="Invalid Email Address"
+                                      onclick="{!c.validateEmail}"/>
         <lightning:input name="companyName" class="slds-m-bottom_medium" 
                                             value="{!v.newContact.CompanyName}" 
                                             label="Company Name" />
-        <lightning:input type="tel" class="slds-m-bottom_medium"
+        <lightning:input aura:id="caseform" type="tel" class="slds-m-bottom_medium"
                                     value="{!v.newContact.PhoneNumber}" 
                                     label="Phone Number" 
-                                    name="phoneNumber"/>
+                                    name="phoneNumber"
+                                    required="true"/>
         
         <div class="slds-m-vertical_medium slds-text-title_caps">
             <lightning:icon iconName="utility:edit_form" alternativeText="Report an Issue" title="Getting Info Icon"/>
@@ -106,12 +77,12 @@
                                 name="caseSubject"
                                 value="{!v.newCase.Subject}"
                                 required="true"/>
-        <lightning:textarea name="caseDescription" class="slds-m-bottom_medium"
+        <lightning:textarea aura:id="caseform" name="caseDescription" class="slds-m-bottom_medium"
                                                    required="true" 
                                                    value="{!v.newCase.Description}" 
-                                                   placeholder="Please, Describe your problem..." 
+                                                   placeholder="Describe your problem, max. characters: 250" 
                                                    label="Case Description" 
-                                                   maxlength="200" 
+                                                   maxlength="250" 
                                                    messageWhenTooLong="A maximum of 200 characters are allowed." 
                                                    messageWhenValueMissing="An empty case description cannot be submitted." />
         <iframe src="/donaciones/apex/ReCaptcha" height="100px" width="400px" style="border:0px"/>
