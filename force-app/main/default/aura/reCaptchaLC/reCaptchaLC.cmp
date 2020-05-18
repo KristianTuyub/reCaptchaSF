@@ -15,79 +15,95 @@
                 'Subject': '',
                 'Description': ''
         }"/>
-    <div class="container slds-text-heading_large slds-text-align_center">
-        <span class="slds-text-title_caps">
-            <strong>Need Support? Open a New Case and an Administrator will Contact you.</strong>
-        </span>
+    <div class="container slds-text-heading_medium slds-text-align_center slds-p-around_medium">
+        <strong>NEED SUPPORT? OPEN A NEW CASE AND AN ADMINISTRATOR WILL CONTACT YOU SHORTLY.</strong>
     </div>
 
 <div class="slds-box">
     <form>
-        <div class="slds-m-vertical_medium slds-text-title_caps">
-            <lightning:icon iconName="utility:report_issue" alternativeText="Report an Issue" title="Support Icon"/>
-            <span class="slds-text-body_regular slds-m-left_small">Contact Information</span>
-        </div>  
-
-        <lightning:input aura:id="caseForm" label="First Name"
-                                class="slds-m-bottom_medium"
-                                name="firstName"
-                                value="{!v.newContact.FirstName}"
-                                required="true"
-                                messageWhenValueMissing="Please, Fill the Required Field"/>
-        <lightning:input aura:id="caseForm" label="Last Name"
-                                class="slds-m-bottom_medium"
-                                name="lastName"
-                                value="{!v.newContact.LastName}"
-                                required="true"
-                                messageWhenValueMissing="Please, Fill the Required Field"/>
-        <lightning:input aura:id="caseForm" label="Second Last Name"
-                                class="slds-m-bottom_medium"
-                                name="secondLastName"
-                                value="{!v.newContact.SecondLastName}"
-                                required="true"
-                                messageWhenValueMissing="Please, Fill the Required Field"/>
-        <lightning:input aura:id="caseFormEmail" type="email" class="slds-m-bottom_medium"
-                                      name="email" 
-                                      required="true" 
-                                      value="{!v.newContact.Email}" 
-                                      label="Email"
-                                      messageWhenValueMissing="Invalid Email Address"/>
-        <lightning:input aura:id="caseForm" name="companyName" class="slds-m-bottom_medium" 
-                                            value="{!v.newContact.CompanyName}" 
-                                            label="Company Name" />
-        <lightning:input aura:id="caseForm" type="tel" class="slds-m-bottom_medium"
-                                    value="{!v.newContact.PhoneNumber}" 
-                                    label="Phone Number" 
-                                    name="phoneNumber"
-                                    required="true"
-                                    messageWhenValueMissing="Please, Fill the Required Field"/>
-        
-        <div class="slds-m-vertical_medium slds-text-title_caps">
-            <lightning:icon iconName="utility:edit_form" alternativeText="Report an Issue" title="Getting Info Icon"/>
-            <span class="slds-text-body_regular slds-m-left_small">Case Description Information</span>
-        </div>        
-        
-        <lightning:select aura:id="caseFormCaseType" name="caseType" label="Choose the type of Case you want to open" required="true" messageWhenValueMissing="Please, Choose a Valid Option">
-            <option value="">choose one...</option>
-            <option value="Question">Question</option>
-            <option value="Problem">Problem</option>
-        </lightning:select>
-        <lightning:input aura:id="caseForm" class="slds-m-bottom_medium"
-                                label="Case Subject"
-                                name="caseSubject"
-                                value="{!v.newCase.Subject}"
-                                required="true"
-                                messageWhenValueMissing="Please, Fill the Required Field"/>
-        <lightning:textarea aura:id="caseForm" name="caseDescription" class="slds-m-bottom_medium"
-                                                   required="true" 
-                                                   value="{!v.newCase.Description}" 
-                                                   placeholder="Describe your problem, max. characters: 250" 
-                                                   label="Case Description" 
-                                                   maxlength="250" 
-                                                   messageWhenTooLong="A maximum of 250 characters are allowed." 
-                                                   messageWhenValueMissing="An empty case description cannot be submitted." />
-        <iframe src="/donaciones/apex/ReCaptcha" height="100px" width="400px" style="border:0px"/>
-        <br/> 
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-text-title_caps slds-p-around_xx-small">
+                <lightning:icon iconName="utility:report_issue" alternativeText="Report an Issue" title="Support Icon"/>
+                <span class="slds-text-body_regular slds-m-left_small">Contact Information</span>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-around_xx-small">
+                <lightning:input aura:id="caseForm" label="First Name"
+                                        class="slds-m-bottom_medium"
+                                        name="firstName"
+                                        value="{!v.newContact.FirstName}"
+                                        required="true"
+                                        messageWhenValueMissing="Please, Fill the Required Field"/>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-around_xx-small">
+                <lightning:input aura:id="caseForm" label="Last Name"
+                                        class="slds-m-bottom_medium"
+                                        name="lastName"
+                                        value="{!v.newContact.LastName}"
+                                        required="true"
+                                        messageWhenValueMissing="Please, Fill the Required Field"/>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-around_xx-small">
+                <lightning:input aura:id="caseForm" label="Mother's Name"
+                                        class="slds-m-bottom_medium"
+                                        name="secondLastName"
+                                        value="{!v.newContact.SecondLastName}"/>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-around_xx-small">
+                <lightning:input aura:id="caseFormEmail" type="email" class="slds-m-bottom_medium"
+                                            name="email" 
+                                            required="true" 
+                                            value="{!v.newContact.Email}" 
+                                            label="Email"
+                                            messageWhenValueMissing="Invalid Email Address"/>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-around_xx-small">
+                <lightning:input aura:id="caseForm" name="companyName" class="slds-m-bottom_medium" 
+                                                    value="{!v.newContact.CompanyName}" 
+                                                    label="Company Name" />
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-around_xx-small">
+                <lightning:input aura:id="caseFormPhoneNumber" type="tel" class="slds-m-bottom_medium"
+                                            value="{!v.newContact.PhoneNumber}" 
+                                            label="Phone Number" 
+                                            name="phoneNumber"
+                                            required="true"
+                                            messageWhenValueMissing="Please, Fill the Required Field"
+                                            fieldLevelHelp="Only Valid Phone Numbers are Accepted"/>
+            </div>
+            
+            <div class="slds-col slds-size_1-of-1 slds-text-title_caps slds-p-around_xx-small">
+                <lightning:icon iconName="utility:edit_form" alternativeText="Report an Issue" title="Getting Info Icon"/>
+                <span class="slds-text-body_regular slds-m-left_small">Case Description Information</span>
+            </div>        
+            <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-around_xx-small">
+                <lightning:select aura:id="caseFormCaseType" name="caseType" label="Case Type" required="true" messageWhenValueMissing="Please, Choose a Valid Option">
+                    <option value="">choose one...</option>
+                    <option value="Question">Question</option>
+                    <option value="Problem">Problem</option>
+                </lightning:select>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-around_xx-small">
+                <lightning:input aura:id="caseForm" class="slds-m-bottom_medium"
+                                        label="Case Subject"
+                                        name="caseSubject"
+                                        value="{!v.newCase.Subject}"
+                                        required="true"
+                                        messageWhenValueMissing="Please, Fill the Required Field"/>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-around_xx-small">
+                <lightning:textarea aura:id="caseForm" name="caseDescription" class="slds-m-bottom_medium"
+                                                        required="true" 
+                                                        value="{!v.newCase.Description}" 
+                                                        placeholder="Describe your problem, max. characters: 250" 
+                                                        label="Case Description" 
+                                                        maxlength="250" 
+                                                        messageWhenTooLong="A maximum of 250 characters are allowed." 
+                                                        messageWhenValueMissing="An empty case description cannot be submitted." />
+            </div>
+            <div class="slds-p-vertical_medium">
+                <iframe src="/donaciones/apex/ReCaptcha" height="100px" width="400px" style="border:0px"/>
+            </div>
+        </div>
         <lightning:button aura:id="submitButton" label="Submit" onclick="{!c.doSubmit}" disabled="true"/>
     </form>
 </div>

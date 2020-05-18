@@ -60,8 +60,7 @@
                 console.log(validEmail + ' ----------- validemail');*/
                 let blankFields = false;
                 if( firstName === '', 
-                    lastName === '', 
-                    secondLastName === '', 
+                    lastName === '',
                     phoneNumber === '', 
                     caseSelectedType === '', 
                     caseSubject === '', 
@@ -70,11 +69,12 @@
                 }
 
                 let validEmail = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email));
+                let validPhoneNumber = (/((?:\+|00)[17](?: |\-)?|(?:\+|00)[1-9]\d{0,2}(?: |\-)?|(?:\+|00)1\-\d{3}(?: |\-)?)?(0\d|\([0-9]{3}\)|[1-9]{0,3})(?:((?: |\-)[0-9]{2}){4}|((?:[0-9]{2}){4})|((?: |\-)[0-9]{3}(?: |\-)[0-9]{4})|([0-9]{7}))/.test(phoneNumber));
 
                 //console.log(validEmail + ' blankFields?: ' + blankFields);
 
                 // First If executes if email is valid and the other fields are not left blank
-                if(validEmail && !blankFields) {
+                if(validEmail && !blankFields && validPhoneNumber) {
                     //console.log('valid email, creating new case');
                     //DEFINE WHAT SHOULD HAPPEN AFTER SERVER-SIDE CALL RETURNS
                     action.setCallback(this, function(response) {
@@ -126,6 +126,21 @@
                         title : 'Error',
                         message:'Please, provide a valid email address and try again',
                         duration:' 5000',
+                        key: 'info_alt',
+                        type: 'error',
+                        mode: 'pester'
+                    });
+                    toastEvent.fire();
+                } else if(!validPhoneNumber) {
+                    var phoneInput = component.find('caseFormPhoneNumber');
+                    phoneInput.setCustomValidity("Wrong Phone Number Format. Please, verify it and try again.");
+                    phoneInput.reportValidity(); 
+
+                    var toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        title : 'Error',
+                        message:'Wrong Phone Number Format. Please, verify it and try again.',
+                        duration:'5000',
                         key: 'info_alt',
                         type: 'error',
                         mode: 'pester'
